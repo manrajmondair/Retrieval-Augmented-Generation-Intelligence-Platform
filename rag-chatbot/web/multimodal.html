@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAG Chatbot - Multimodal Analysis</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            padding: 40px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .feature-card {
+            background: #f8f9ff;
+            border-radius: 15px;
+            padding: 25px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .feature-card:hover {
+            border-color: #667eea;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.1);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .feature-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #333;
+        }
+
+        .feature-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .feature-capabilities {
+            list-style: none;
+        }
+
+        .feature-capabilities li {
+            color: #667eea;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .feature-capabilities li::before {
+            content: "✓";
+            margin-right: 8px;
+            font-weight: bold;
+        }
+
+        .demo-section {
+            background: #f0f4ff;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+        }
+
+        .demo-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+        }
+
+        .upload-zone {
+            border: 3px dashed #667eea;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            background: white;
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .upload-zone:hover {
+            background: #f8f9ff;
+            border-color: #764ba2;
+        }
+
+        .upload-zone.dragover {
+            background: #f0f4ff;
+            border-color: #667eea;
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .upload-text {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .upload-subtext {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .analysis-type-selector {
+            margin-bottom: 25px;
+        }
+
+        .analysis-type-selector label {
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: block;
+            color: #333;
+        }
+
+        .type-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .type-button {
+            padding: 10px 20px;
+            border: 2px solid #e0e6ed;
+            border-radius: 25px;
+            background: white;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .type-button.active {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+
+        .type-button:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+
+        .analyze-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .analyze-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .analyze-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .results-section {
+            margin-top: 30px;
+            padding: 25px;
+            background: white;
+            border-radius: 15px;
+            border: 1px solid #e0e6ed;
+            display: none;
+        }
+
+        .results-section.show {
+            display: block;
+        }
+
+        .result-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .result-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-right: 15px;
+        }
+
+        .result-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .result-confidence {
+            background: #e6f7ff;
+            color: #1890ff;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: auto;
+        }
+
+        .result-content {
+            margin-bottom: 20px;
+        }
+
+        .result-description {
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .extracted-text {
+            background: #f0f4ff;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            margin-bottom: 15px;
+            font-family: monospace;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .insights-list {
+            list-style: none;
+        }
+
+        .insights-list li {
+            background: white;
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            border-left: 4px solid #52c41a;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .performance-metrics {
+            display: flex;
+            justify-content: space-around;
+            background: #f6f8fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        .metric {
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .metric-label {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .demo-showcase {
+            background: linear-gradient(135deg, #f0f4ff 0%, #fff 100%);
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .showcase-button {
+            background: #52c41a;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+
+        .showcase-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(82, 196, 26, 0.3);
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #52c41a;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.error {
+            background: #ff4d4f;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-magic"></i> Multimodal Document Analysis</h1>
+            <p>Transform images, tables, charts, and diagrams into actionable insights</p>
+        </div>
+
+        <div class="main-content">
+            <div class="features-grid">
+                <div class="feature-card" onclick="selectFeature('image')">
+                    <div class="feature-icon">
+                        <i class="fas fa-image"></i>
+                    </div>
+                    <div class="feature-title">Image Analysis</div>
+                    <div class="feature-description">Extract insights from photos, screenshots, and visual content</div>
+                    <ul class="feature-capabilities">
+                        <li>Content description</li>
+                        <li>Text extraction (OCR)</li>
+                        <li>Key insights generation</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card" onclick="selectFeature('table')">
+                    <div class="feature-icon">
+                        <i class="fas fa-table"></i>
+                    </div>
+                    <div class="feature-title">Table Extraction</div>
+                    <div class="feature-description">Convert table images into structured data with analysis</div>
+                    <ul class="feature-capabilities">
+                        <li>Data extraction</li>
+                        <li>Metric analysis</li>
+                        <li>Trend identification</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card" onclick="selectFeature('chart')">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <div class="feature-title">Chart Analysis</div>
+                    <div class="feature-description">Understand trends and patterns from graphs and visualizations</div>
+                    <ul class="feature-capabilities">
+                        <li>Chart type detection</li>
+                        <li>Data point extraction</li>
+                        <li>Trend analysis</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card" onclick="selectFeature('diagram')">
+                    <div class="feature-icon">
+                        <i class="fas fa-project-diagram"></i>
+                    </div>
+                    <div class="feature-title">Diagram Understanding</div>
+                    <div class="feature-description">Analyze flowcharts, processes, and organizational structures</div>
+                    <ul class="feature-capabilities">
+                        <li>Structure identification</li>
+                        <li>Process mapping</li>
+                        <li>Relationship analysis</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="demo-section">
+                <h2 class="demo-title">Try Multimodal Analysis</h2>
+                
+                <div class="upload-zone" id="uploadZone">
+                    <div class="upload-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <div class="upload-text">Drop your image here or click to browse</div>
+                    <div class="upload-subtext">Supports PNG, JPG, JPEG • Max 10MB</div>
+                    <input type="file" id="fileInput" class="file-input" accept="image/*">
+                </div>
+
+                <div class="analysis-type-selector">
+                    <label>Analysis Type:</label>
+                    <div class="type-buttons">
+                        <div class="type-button active" data-type="image">General Image</div>
+                        <div class="type-button" data-type="table">Data Table</div>
+                        <div class="type-button" data-type="chart">Chart/Graph</div>
+                        <div class="type-button" data-type="diagram">Diagram</div>
+                        <div class="type-button" data-type="screenshot">Screenshot</div>
+                        <div class="type-button" data-type="document_page">Document Page</div>
+                    </div>
+                </div>
+
+                <button class="analyze-button" id="analyzeButton" disabled>
+                    <i class="fas fa-magic"></i> Analyze Image
+                </button>
+
+                <div class="results-section" id="resultsSection">
+                    <div class="result-header">
+                        <div class="result-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="result-title">Analysis Complete</div>
+                        <div class="result-confidence" id="confidenceScore">95% Confidence</div>
+                    </div>
+                    
+                    <div class="result-content">
+                        <div class="result-description" id="analysisDescription">
+                            Analysis results will appear here...
+                        </div>
+                        
+                        <div class="extracted-text" id="extractedText" style="display: none;">
+                            Extracted text will appear here...
+                        </div>
+                        
+                        <ul class="insights-list" id="insightsList">
+                            <!-- Insights will be populated here -->
+                        </ul>
+                    </div>
+
+                    <div class="performance-metrics">
+                        <div class="metric">
+                            <div class="metric-value" id="processingTime">--</div>
+                            <div class="metric-label">Processing Time</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value" id="confidence">--</div>
+                            <div class="metric-label">Confidence</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value" id="insights">--</div>
+                            <div class="metric-label">Insights Found</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="demo-showcase">
+                <h3>Experience Our Full Capabilities</h3>
+                <p style="margin-bottom: 20px; color: #666;">See what multimodal analysis can do with real examples</p>
+                <button class="showcase-button" onclick="runDemo()">
+                    <i class="fas fa-play"></i> Run Demo
+                </button>
+                <button class="showcase-button" onclick="showCapabilities()">
+                    <i class="fas fa-info-circle"></i> View All Features
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class MultimodalAnalyzer {
+            constructor() {
+                this.selectedType = 'image';
+                this.currentFile = null;
+                this.setupEventListeners();
+            }
+
+            setupEventListeners() {
+                // File upload
+                const uploadZone = document.getElementById('uploadZone');
+                const fileInput = document.getElementById('fileInput');
+
+                uploadZone.addEventListener('click', () => fileInput.click());
+                uploadZone.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    uploadZone.classList.add('dragover');
+                });
+                uploadZone.addEventListener('dragleave', () => {
+                    uploadZone.classList.remove('dragover');
+                });
+                uploadZone.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    uploadZone.classList.remove('dragover');
+                    const files = e.dataTransfer.files;
+                    if (files.length > 0) {
+                        this.handleFileSelect(files[0]);
+                    }
+                });
+
+                fileInput.addEventListener('change', (e) => {
+                    if (e.target.files.length > 0) {
+                        this.handleFileSelect(e.target.files[0]);
+                    }
+                });
+
+                // Type selection
+                document.querySelectorAll('.type-button').forEach(button => {
+                    button.addEventListener('click', () => {
+                        document.querySelectorAll('.type-button').forEach(b => b.classList.remove('active'));
+                        button.classList.add('active');
+                        this.selectedType = button.dataset.type;
+                    });
+                });
+
+                // Analyze button
+                document.getElementById('analyzeButton').addEventListener('click', () => {
+                    this.analyzeImage();
+                });
+            }
+
+            handleFileSelect(file) {
+                if (!file.type.startsWith('image/')) {
+                    this.showToast('Please select an image file', 'error');
+                    return;
+                }
+
+                if (file.size > 10 * 1024 * 1024) {
+                    this.showToast('File size must be less than 10MB', 'error');
+                    return;
+                }
+
+                this.currentFile = file;
+                document.getElementById('analyzeButton').disabled = false;
+                
+                // Update upload zone text
+                const uploadZone = document.getElementById('uploadZone');
+                uploadZone.innerHTML = `
+                    <div class="upload-icon">
+                        <i class="fas fa-check-circle" style="color: #52c41a;"></i>
+                    </div>
+                    <div class="upload-text">${file.name}</div>
+                    <div class="upload-subtext">Ready for analysis • ${(file.size / 1024).toFixed(1)} KB</div>
+                `;
+            }
+
+            async analyzeImage() {
+                if (!this.currentFile) return;
+
+                const button = document.getElementById('analyzeButton');
+                const originalText = button.innerHTML;
+                button.innerHTML = '<div class="loading"></div>Analyzing...';
+                button.disabled = true;
+
+                try {
+                    // Convert file to base64
+                    const base64 = await this.fileToBase64(this.currentFile);
+                    
+                    // Make API request
+                    const response = await fetch('/multimodal/analyze', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-API-Key': 'changeme'
+                        },
+                        body: JSON.stringify({
+                            image_data: base64,
+                            media_type: this.selectedType,
+                            doc_id: `demo_${Date.now()}`
+                        })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`Analysis failed: ${response.statusText}`);
+                    }
+
+                    const result = await response.json();
+                    this.displayResults(result);
+                    this.showToast('Analysis completed successfully!');
+
+                } catch (error) {
+                    console.error('Analysis error:', error);
+                    this.showToast(`Analysis failed: ${error.message}`, 'error');
+                } finally {
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                }
+            }
+
+            displayResults(result) {
+                const resultsSection = document.getElementById('resultsSection');
+                const analysis = result.analysis;
+                
+                // Update confidence score
+                document.getElementById('confidenceScore').textContent = 
+                    `${Math.round(analysis.confidence * 100)}% Confidence`;
+                
+                // Update description
+                document.getElementById('analysisDescription').textContent = 
+                    analysis.description;
+                
+                // Update extracted text if available
+                const extractedTextDiv = document.getElementById('extractedText');
+                if (analysis.extracted_text) {
+                    extractedTextDiv.textContent = analysis.extracted_text;
+                    extractedTextDiv.style.display = 'block';
+                } else {
+                    extractedTextDiv.style.display = 'none';
+                }
+                
+                // Update insights
+                const insightsList = document.getElementById('insightsList');
+                insightsList.innerHTML = '';
+                analysis.key_insights.forEach(insight => {
+                    const li = document.createElement('li');
+                    li.textContent = insight;
+                    insightsList.appendChild(li);
+                });
+                
+                // Update metrics
+                document.getElementById('processingTime').textContent = 
+                    `${result.performance.processing_time_ms}ms`;
+                document.getElementById('confidence').textContent = 
+                    `${Math.round(analysis.confidence * 100)}%`;
+                document.getElementById('insights').textContent = 
+                    analysis.key_insights.length;
+                
+                // Show results
+                resultsSection.classList.add('show');
+                resultsSection.scrollIntoView({ behavior: 'smooth' });
+            }
+
+            fileToBase64(file) {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onload = () => resolve(reader.result);
+                    reader.onerror = error => reject(error);
+                });
+            }
+
+            showToast(message, type = 'success') {
+                // Remove existing toast
+                const existingToast = document.querySelector('.toast');
+                if (existingToast) {
+                    existingToast.remove();
+                }
+
+                const toast = document.createElement('div');
+                toast.className = `toast ${type}`;
+                toast.innerHTML = `
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+                    ${message}
+                `;
+                
+                document.body.appendChild(toast);
+                
+                // Show toast
+                setTimeout(() => toast.classList.add('show'), 100);
+                
+                // Hide toast after 3 seconds
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                    setTimeout(() => toast.remove(), 300);
+                }, 3000);
+            }
+        }
+
+        function selectFeature(type) {
+            document.querySelectorAll('.type-button').forEach(b => b.classList.remove('active'));
+            document.querySelector(`[data-type="${type}"]`).classList.add('active');
+            
+            const analyzer = window.multimodalAnalyzer;
+            if (analyzer) {
+                analyzer.selectedType = type;
+            }
+        }
+
+        async function runDemo() {
+            const button = event.target;
+            const originalText = button.innerHTML;
+            button.innerHTML = '<div class="loading"></div>Running Demo...';
+            button.disabled = true;
+
+            try {
+                const response = await fetch('/multimodal/demo', {
+                    method: 'POST',
+                    headers: {
+                        'X-API-Key': 'demo-key-12345',
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Demo failed: ${response.statusText}`);
+                }
+
+                const result = await response.json();
+                
+                // Show demo results in a modal or new section
+                alert(`Demo completed! Processed ${result.demo_results.demonstration_metrics.items_processed} items in ${result.demo_results.demonstration_metrics.total_demo_time_ms}ms`);
+                
+            } catch (error) {
+                console.error('Demo error:', error);
+                alert(`Demo failed: ${error.message}`);
+            } finally {
+                button.innerHTML = originalText;
+                button.disabled = false;
+            }
+        }
+
+        async function showCapabilities() {
+            try {
+                const response = await fetch('/multimodal/types', {
+                    headers: {
+                        'X-API-Key': 'changeme'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch capabilities: ${response.statusText}`);
+                }
+
+                const capabilities = await response.json();
+                
+                // Display capabilities in a formatted way
+                let capText = "🚀 Supported Media Types:\n\n";
+                Object.entries(capabilities.supported_types).forEach(([type, info]) => {
+                    capText += `${info.name}: ${info.description}\n`;
+                });
+                
+                alert(capText);
+                
+            } catch (error) {
+                console.error('Capabilities error:', error);
+                alert(`Failed to load capabilities: ${error.message}`);
+            }
+        }
+
+        // Initialize the analyzer when page loads
+        window.addEventListener('DOMContentLoaded', () => {
+            window.multimodalAnalyzer = new MultimodalAnalyzer();
+        });
+    </script>
+</body>
+</html>

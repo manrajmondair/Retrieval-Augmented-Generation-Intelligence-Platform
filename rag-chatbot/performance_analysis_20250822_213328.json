@@ -1,0 +1,213 @@
+{
+  "summary": {
+    "avg_total_ms": 957.3159098625183,
+    "avg_retrieval_ms": 276.37773752212524,
+    "avg_llm_ms": 680.9381723403931,
+    "p95_total_ms": 1508.152961730957,
+    "p95_retrieval_ms": 585.3230953216553,
+    "grade": "D",
+    "meets_target": false
+  },
+  "results": [
+    {
+      "query_num": 1,
+      "query": "What vector stores are supported?",
+      "total_time_ms": 1508.152961730957,
+      "retrieval_time_ms": 585.3230953216553,
+      "llm_time_ms": 922.8298664093018,
+      "success": true,
+      "answer_length": 74,
+      "citations_count": 1
+    },
+    {
+      "query_num": 2,
+      "query": "How do I authenticate with the API?",
+      "total_time_ms": 973.8848209381104,
+      "retrieval_time_ms": 203.88126373291016,
+      "llm_time_ms": 770.0035572052002,
+      "success": true,
+      "answer_length": 103,
+      "citations_count": 1
+    },
+    {
+      "query_num": 3,
+      "query": "What security practices does the company require?",
+      "total_time_ms": 1020.7970142364502,
+      "retrieval_time_ms": 318.3155059814453,
+      "llm_time_ms": 702.4815082550049,
+      "success": true,
+      "answer_length": 56,
+      "citations_count": 1
+    },
+    {
+      "query_num": 4,
+      "query": "What is the vacation policy?",
+      "total_time_ms": 796.0917949676514,
+      "retrieval_time_ms": 203.54747772216797,
+      "llm_time_ms": 592.5443172454834,
+      "success": true,
+      "answer_length": 56,
+      "citations_count": 1
+    },
+    {
+      "query_num": 5,
+      "query": "How does hybrid retrieval work?",
+      "total_time_ms": 900.3498554229736,
+      "retrieval_time_ms": 306.3063621520996,
+      "llm_time_ms": 594.043493270874,
+      "success": true,
+      "answer_length": 56,
+      "citations_count": 1
+    },
+    {
+      "query_num": 6,
+      "query": "What vector stores are supported?",
+      "total_time_ms": 1033.5428714752197,
+      "retrieval_time_ms": 284.87586975097656,
+      "llm_time_ms": 748.6670017242432,
+      "success": true,
+      "answer_length": 74,
+      "citations_count": 1
+    },
+    {
+      "query_num": 7,
+      "query": "How do I authenticate with the API?",
+      "total_time_ms": 1031.2471389770508,
+      "retrieval_time_ms": 312.69216537475586,
+      "llm_time_ms": 718.5549736022949,
+      "success": true,
+      "answer_length": 103,
+      "citations_count": 1
+    },
+    {
+      "query_num": 8,
+      "query": "What security practices does the company require?",
+      "total_time_ms": 720.8137512207031,
+      "retrieval_time_ms": 113.89732360839844,
+      "llm_time_ms": 606.9164276123047,
+      "success": true,
+      "answer_length": 56,
+      "citations_count": 1
+    },
+    {
+      "query_num": 9,
+      "query": "What is the vacation policy?",
+      "total_time_ms": 851.0222434997559,
+      "retrieval_time_ms": 293.8873767852783,
+      "llm_time_ms": 557.1348667144775,
+      "success": true,
+      "answer_length": 56,
+      "citations_count": 1
+    },
+    {
+      "query_num": 10,
+      "query": "How does hybrid retrieval work?",
+      "total_time_ms": 985.7909679412842,
+      "retrieval_time_ms": 309.02910232543945,
+      "llm_time_ms": 676.7618656158447,
+      "success": true,
+      "answer_length": 56,
+      "citations_count": 1
+    },
+    {
+      "query_num": 11,
+      "query": "What vector stores are supported?",
+      "total_time_ms": 970.9920883178711,
+      "retrieval_time_ms": 227.25939750671387,
+      "llm_time_ms": 743.7326908111572,
+      "success": true,
+      "answer_length": 74,
+      "citations_count": 1
+    },
+    {
+      "query_num": 12,
+      "query": "How do I authenticate with the API?",
+      "total_time_ms": 1118.8762187957764,
+      "retrieval_time_ms": 284.5122814178467,
+      "llm_time_ms": 834.3639373779297,
+      "success": true,
+      "answer_length": 103,
+      "citations_count": 1
+    },
+    {
+      "query_num": 13,
+      "query": "What security practices does the company require?",
+      "total_time_ms": 820.7578659057617,
+      "retrieval_time_ms": 163.3315086364746,
+      "llm_time_ms": 657.4263572692871,
+      "success": true,
+      "answer_length": 56,
+      "citations_count": 1
+    },
+    {
+      "query_num": 14,
+      "query": "What is the vacation policy?",
+      "total_time_ms": 767.6479816436768,
+      "retrieval_time_ms": 195.8792209625244,
+      "llm_time_ms": 571.7687606811523,
+      "success": true,
+      "answer_length": 56,
+      "citations_count": 1
+    },
+    {
+      "query_num": 15,
+      "query": "How does hybrid retrieval work?",
+      "total_time_ms": 868.9939975738525,
+      "retrieval_time_ms": 265.58780670166016,
+      "llm_time_ms": 603.4061908721924,
+      "success": true,
+      "answer_length": 56,
+      "citations_count": 1
+    },
+    {
+      "query_num": 16,
+      "query": "What vector stores are supported?",
+      "total_time_ms": 1045.6020832061768,
+      "retrieval_time_ms": 310.1060390472412,
+      "llm_time_ms": 735.4960441589355,
+      "success": true,
+      "answer_length": 74,
+      "citations_count": 1
+    },
+    {
+      "query_num": 17,
+      "query": "How do I authenticate with the API?",
+      "total_time_ms": 1204.6587467193604,
+      "retrieval_time_ms": 359.94410514831543,
+      "llm_time_ms": 844.7146415710449,
+      "success": true,
+      "answer_length": 103,
+      "citations_count": 1
+    },
+    {
+      "query_num": 18,
+      "query": "What security practices does the company require?",
+      "total_time_ms": 862.678050994873,
+      "retrieval_time_ms": 277.54950523376465,
+      "llm_time_ms": 585.1285457611084,
+      "success": true,
+      "answer_length": 56,
+      "citations_count": 1
+    },
+    {
+      "query_num": 19,
+      "query": "What is the vacation policy?",
+      "total_time_ms": 692.0208930969238,
+      "retrieval_time_ms": 213.90533447265625,
+      "llm_time_ms": 478.1155586242676,
+      "success": true,
+      "answer_length": 56,
+      "citations_count": 1
+    },
+    {
+      "query_num": 20,
+      "query": "How does hybrid retrieval work?",
+      "total_time_ms": 972.3968505859375,
+      "retrieval_time_ms": 297.72400856018066,
+      "llm_time_ms": 674.6728420257568,
+      "success": true,
+      "answer_length": 56,
+      "citations_count": 1
+    }
+  ]
+}
