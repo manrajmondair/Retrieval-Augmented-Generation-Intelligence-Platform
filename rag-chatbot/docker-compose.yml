@@ -1,9 +1,7 @@
 version: "3.9"
 services:
   api:
-    build:
-      context: .
-      dockerfile: docker/Dockerfile
+    build: .
     env_file:
       - .env
     ports:

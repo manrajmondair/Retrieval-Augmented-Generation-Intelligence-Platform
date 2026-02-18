@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 
-.PHONY: up down dev seed test itest format lint typecheck bench eval postman
+.PHONY: up down dev seed test itest format lint typecheck bench eval
 
 up:
 	docker compose up -d --build
@@ -34,7 +34,3 @@ bench:
 
 eval:
 	python -m app.evals.harness --n 50 --store $${VECTOR_STORE:-qdrant}
-
-postman:
-	bash scripts/export_postman_collection.sh
-

@@ -11,5 +11,4 @@ uv.lock
 .chroma/
 artifacts/
 data/**/processed/
-postman/*-local.json
-
+performance_analysis_*.json
